@@ -83,7 +83,7 @@ export const detail = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
-// [GET] /api/v1/tasks/change-status/:id
+// [PATCH] /api/v1/tasks/change-status/:id
 export const changeStatus = async (req: Request, res: Response): Promise<void> => {
     try {
         const id: string = req.params.id;
@@ -104,7 +104,7 @@ export const changeStatus = async (req: Request, res: Response): Promise<void> =
     }
 }
 
-// [GET] /api/v1/tasks/change-multi/:id
+// [PATCH] /api/v1/tasks/change-multi/:id
 export const changeMulti = async (req: Request, res: Response): Promise<void> => {
     try {
         const {ids, key, value} = req.body;
@@ -132,6 +132,25 @@ export const changeMulti = async (req: Request, res: Response): Promise<void> =>
         res.json({
             code: 400,
             message: "Bad request"
+        })
+    }
+}
+
+// [POST] /api/v1/tasks/create
+export const create = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const task = new Task(req.body);
+        const data = await task.save();
+
+        res.json({
+            code: 201,
+            message: "New task was just created",
+            data: data
+        });
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Bad request!"
         })
     }
 }
