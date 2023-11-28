@@ -1,5 +1,5 @@
 {
-  "name": "task-management(ts)",
+  "name": "task-management",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,6 +18,8 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.1"
   }
 }
