@@ -97,18 +97,11 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
-// [POST] /api/v1/users/detail/:id
+// [POST] /api/v1/users/detail
 export const detail = async (req: Request, res: Response): Promise<void> => {
-    const id: string = req.params.id;
-
-    const user = await User.findOne({
-        _id: id,
-        deleted: false
-    }).select("-password -token");
-
     res.json({
         code: 200,
         message: "Success",
-        info: user
+        info: req["user"]
     });
 }
