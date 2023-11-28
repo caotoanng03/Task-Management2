@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/user.model";
 
 import md5 from "md5";
+import exp from "constants";
 
 //[GET] /api/v1/users/
 export const index = async (req: Request, res: Response): Promise<void> => {
@@ -94,4 +95,20 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
             message: "Bad request!"
         })
     }
+}
+
+// [POST] /api/v1/users/detail/:id
+export const detail = async (req: Request, res: Response): Promise<void> => {
+    const id: string = req.params.id;
+
+    const user = await User.findOne({
+        _id: id,
+        deleted: false
+    }).select("-password -token");
+
+    res.json({
+        code: 200,
+        message: "Success",
+        info: user
+    });
 }

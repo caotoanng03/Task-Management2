@@ -11,5 +11,7 @@ router.post("/login", controller.login);
 
 router.get("/logout", controller.logout);
 
+router.post("/detail/:id", controller.detail);
+
 export const userRoutes: Router = router;
 
