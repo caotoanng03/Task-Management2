@@ -3,6 +3,20 @@ import User from "../models/user.model";
 
 import md5 from "md5";
 
+//[GET] /api/v1/users/
+export const index = async (req: Request, res: Response): Promise<void> => {
+    const users = await User.find({
+        deleted: false
+    }).select("fullName email");
+
+    res.json({
+        code: 200,
+        message: "Success",
+        users: users
+    })
+}
+
+
 // [POST] /api/v1/users/register
 export const register = async (req: Request, res: Response): Promise<void> => {
     const existingEmail = await User.findOne({ 
@@ -23,7 +37,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
             message: "New account was just created",
             token: data.token
         });
-        
+
      } else {
         res.json({
             code: 400,
