@@ -10,4 +10,6 @@ router.get("/:id", controller.detail);
 
 router.patch("/change-status/:id", controller.changeStatus);
 
+router.patch("/change-multi", controller.changeMulti);
+
 export const taskRoutes: Router = router;

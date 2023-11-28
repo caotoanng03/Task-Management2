@@ -4,6 +4,7 @@ import Task from "../models/task.model";
 import paginationHelper from "../../../helpers/pagination";
 import searchHelper from "../../../helpers/search";
 
+// [GET] /api/v1/tasks
 export const index = async (req: Request, res: Response): Promise<void> => {
     // Find
     interface Find {
@@ -62,6 +63,7 @@ export const index = async (req: Request, res: Response): Promise<void> => {
     })
 }
 
+// [GET] /api/v1/tasks/:id
 export const detail = async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id;
     try {
@@ -81,6 +83,7 @@ export const detail = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
+// [GET] /api/v1/tasks/change-status/:id
 export const changeStatus = async (req: Request, res: Response): Promise<void> => {
     try {
         const id: string = req.params.id;
@@ -97,6 +100,38 @@ export const changeStatus = async (req: Request, res: Response): Promise<void> =
         res.json({
             code: 400,
             message: "None existed that product"
+        })
+    }
+}
+
+// [GET] /api/v1/tasks/change-multi/:id
+export const changeMulti = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const {ids, key, value} = req.body;
+        let bodyRequest : [string[], string, string] = [ids, key, value];
+
+        switch(key) {
+            case "status":
+                await Task.updateMany({
+                    _id: { $in: ids }
+                }, { status: value } );
+
+                res.json({
+                    code: 200,
+                    message: "Update Status Successfully"
+                });
+                break;
+            default:
+                res.json({
+                    code: 400,
+                    message: "Bad request"
+                });
+                break;
+        }
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "Bad request"
         })
     }
 }
