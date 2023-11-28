@@ -16,7 +16,6 @@ export const index = async (req: Request, res: Response): Promise<void> => {
     })
 }
 
-
 // [POST] /api/v1/users/register
 export const register = async (req: Request, res: Response): Promise<void> => {
     const existingEmail = await User.findOne({ 
@@ -78,4 +77,21 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         code: 200,
         message: "Logged in successfully"
     });
+}
+
+// [GET] /api/v1/users/logout
+export const logout = async (req: Request, res: Response): Promise<void> => {
+    if(req.headers.cookie) {
+        res.clearCookie("token");
+
+        res.json({
+            code: 200,
+            message: "Logged out successfully"
+        });
+    } else {
+        res.json({
+            code: 400,
+            message: "Bad request!"
+        })
+    }
 }
