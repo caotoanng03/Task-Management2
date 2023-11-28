@@ -176,3 +176,25 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
         })
     }
 }
+
+// [DELETE] /api/v1/tasks/delete/:id
+export const deleteTask = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const id: string = req.params.id;
+
+        await Task.updateOne({ _id: id }, {
+            deleted: true,
+            deletedAt: new Date()
+        });
+
+        res.json({
+            code: 200,
+            message: "Deleted successfully"
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "None existed that product id"
+        })
+    }
+}
