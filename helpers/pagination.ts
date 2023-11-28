@@ -1,11 +1,11 @@
-interface Pagination {
+interface IPagination {
     currentPage: number,
     limitItems: number,
     skip?: number,
     totalPage?: number
 }
 
-const paginationHelper = (objectPagination: Pagination, query: Record<string, any>, countRecords: number): Pagination => {
+const paginationHelper = (objectPagination: IPagination, query: Record<string, any>, countRecords: number): IPagination => {
     if (query.page) {
         objectPagination.currentPage = parseInt(query.page);
     };
