@@ -155,3 +155,24 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
+// [PATCH] /api/v1/tasks/edit/:id
+export const edit = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const id: string = req.params.id;
+
+        await Task.updateOne({
+            _id: id,
+            deleted: false
+        }, req.body);
+
+        res.json({
+            code: 200,
+            message: "Updated successfully"
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "None existed that product id"
+        })
+    }
+}
