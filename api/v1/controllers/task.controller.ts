@@ -107,11 +107,16 @@ export const changeStatus = async (req: Request, res: Response): Promise<void> =
 // [PATCH] /api/v1/tasks/change-multi/:id
 export const changeMulti = async (req: Request, res: Response): Promise<void> => {
     try {
+        enum Key {
+            STATUS = "status",
+            DELETE = "delete"
+        }
+
         const {ids, key, value} = req.body;
         let bodyRequest : [string[], string, string] = [ids, key, value];
 
         switch(key) {
-            case "status":
+            case Key.STATUS:
                 await Task.updateMany({
                     _id: { $in: ids }
                 }, { status: value } );
@@ -121,6 +126,21 @@ export const changeMulti = async (req: Request, res: Response): Promise<void> =>
                     message: "Update Status Successfully"
                 });
                 break;
+
+            case Key.DELETE:
+                await Task.updateMany({
+                    _id: { $in: ids }
+                }, { 
+                    deleted: true,
+                    deletedAt: new Date()
+                } );
+
+                res.json({
+                    code: 200,
+                    message: "Deleted multiple tasks successfully"
+                });
+                break;
+
             default:
                 res.json({
                     code: 400,
